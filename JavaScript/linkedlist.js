@@ -78,6 +78,19 @@ class LinkedList {
         return current_node
     }
 
+    reverse() {
+        let len_ = this.length;
+        var i;
+        var node_value;
+        for (i=0; i<=len_; i++) {
+            node_value = this.traverse(len_-1).value;
+            this.node = node_value
+            // console.log(make_node(node_value));
+            // this.tail = node.next
+        }
+        // return this
+    }
+
     printLList() {
         const arr = [];
         let current_node = this.head;
@@ -94,12 +107,12 @@ const myLinkedList = new LinkedList(10)
 myLinkedList.append(5)
 myLinkedList.append(16)
 myLinkedList.prepend(1)
-myLinkedList.insert(0,9)
-myLinkedList.insert(2,99)
-myLinkedList.insert(20,90)
-myLinkedList.delete(0)
+// myLinkedList.insert(0,9)
+// myLinkedList.insert(2,99)
+// myLinkedList.insert(20,90)
+// myLinkedList.delete(0)
 
-// console.log(myLinkedList.printLList())
+console.log(myLinkedList.reverse())
 // console.log(myLinkedList.traverse(3).value)
 
 // Doubly linked list:
@@ -220,4 +233,4 @@ myDoublyLinkedList.insert(2,99)
 myDoublyLinkedList.delete(0)
 
 
-console.log(myDoublyLinkedList.printLList())
+// console.log(myDoublyLinkedList.printLList())
