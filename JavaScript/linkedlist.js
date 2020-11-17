@@ -83,13 +83,18 @@ class LinkedList {
         var i;
         var node_value;
         for (i=0; i<=len_; i++) {
-            node_value = this.traverse(len_-1).value;
+            node_value = this.traverse(len_-1-i).value;
             this.node = node_value
             // console.log(make_node(node_value));
             // this.tail = node.next
         }
         // return this
     }
+
+    // 1->2->3->4
+
+    // i = 4, traveser to last node
+    // make this node as head
 
     printLList() {
         const arr = [];
