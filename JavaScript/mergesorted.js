@@ -64,3 +64,4 @@ function merge_sorted_arrays_(a, b) {
 
 console.log(merge_sorted_arrays([0,3,4,31], [3,4,6,30]))
 console.log(merge_sorted_arrays_(a, b))
+
