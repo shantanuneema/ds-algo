@@ -16,51 +16,105 @@ class Solution:
         words = sentence.lower().split(" ")
         output = [(words[i], words[i + 1]) for i in range(len(words) - 1)]
         return output
-    
-if __name__ == "__main__":
-    s = Solution    
-    print(s.find_bigrams("Have free hours and love children? \
-    Drive kids to school, soccer practice and other activities."))
 
+s = Solution    
+print(s.find_bigrams("Have free hours and love children? \
+Drive kids to school, soccer practice and other activities."))
 
 """
-Given a list of timestamps in sequential order, return a list of lists grouped by week (7 days) 
-Use the first timestamp as the starting point
+Given a list of stop words, write a function that takes a string and returns a string stripped of the stop words
 
-Gotcha: instead of differnce in days, note the question ask the days in same week 
-(e.g. Feb 1st and 2nd are in same week but Feb 5th in next week though they are under 7 days difference)
+Gotcha: use of set (to avoid search each word again and again, help to reduce run-time by using O(1) space)
 """
-
-import datetime
 
 class Solution:
-
-    def weekly_aggregate(self, ts):
-
-        if ts == None or len(ts) == 0: return -1
-        output = [[ts[0]]]; count = 0
-     
-        for idx in range(1, len(ts)):
-            if self.WkNum(ts[idx]) == self.WkNum(ts[idx - 1]):
-                output[count].append(ts[idx])
-            else:
-                count += 1
-                output.append([ts[idx]])
-
-        return output
-
-    def WkNum(self, time_text):
-        t = datetime.datetime.strptime(time_text, "%Y-%m-%d")
-        wk = (t - datetime.datetime(t.year, 1, 1)).days // 7 + 1
-        return wk
     
-ts = ['2019-01-01', 
-      '2019-01-02',
-      '2019-01-08', 
-      '2019-02-01', 
-      '2019-02-02',
-      '2019-02-05']
+    def filter_stopwords(self, stopwords, paragraph):
+        
+        if paragraph == None or len(paragraph) == 0: return None
+        stopwords_set = set(stopwords)
+        words = paragraph.split(" ")
+        stripped = [word for word in words if word not in stopwords_set]
+        
+        return " ".join(stripped)
+        
+stopwords = ['I', 'as', 'to', 'you', 'your', 'but', 'be', 'a']
+
+paragraph = 'I want to figure out how I can be a better data scientist'
+if __name__ == "__main__":
+    s = Solution()
+    print(s.filter_stopwords(stopwords, paragraph))
+    
+"""
+Given two strings, string1 and string2, find out if string1 is a subsequence of string2
+
+Gotcha: look for optimal solution (e.g. 2 pointers)
+"""
+ 
+class Solution:
+    
+    def ifSubseq(self, string1, string2):
+        
+        if string1 == None or string2 == None: return None
+        
+        p1 = 0; p2 = 0; matched = 0
+        while p1 < len(string1) and p2 < len(string2):
+            if string1[p1] == string2[p2]:
+                p1 += 1; p2 += 1
+                matched += 1
+            else: p2 += 1
+            
+        return matched == len(string1)
+        
+string1 = 'abc'
+string2 = 'asbsc'
+string3 = 'acedb'
+        
+if __name__ == "__main__":
+    s = Solution()
+    print(s.ifSubseq(string1, string2))
+    print(s.ifSubseq(string1, string3))
+    
+"""
+Given a string, return the first recurring character in it, or None if there is no recurring chracter
+
+Gotcha: use of set (for O(n) traversal)
+"""
+    
+class Solution:
+
+    def first_reoccur(self, inp):
+        hashset = set()
+        for item in list(inp):
+            if item in hashset:
+                return item
+            else:
+                hashset.add(item)
+
+        return None
 
 if __name__ == "__main__":
     s = Solution()
-    print(s.weekly_aggregate(ts))
+    print(s.first_reoccur("interviewquery"))
+    print(s.first_reoccur("interv"))
+    
+"""
+count number of lines in a large file
+
+Gotcha: use with, instead of loading the file (efficient solution)
+"""
+
+class Solution:
+    def count_lines(self, file_path):
+        count = 0
+        with open(file_path, 'r') as log_file:
+            for line in log_file:
+                count += 1
+
+        return count
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.count_lines(file_path))
+    
+    
