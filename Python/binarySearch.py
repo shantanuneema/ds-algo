@@ -55,3 +55,48 @@ if __name__ == "__main__":
     print(s.searchRange([1], 1))
     print(s.searchRange([1,2], 3))
     print(s.searchRange([1,1,1,3,3,3,3,3,3,4], 3))
+    
+"""
+Check if alphanumeric characters with lower case in a string makes palindrome
+Gotcha: use of binary search and ensure lower case characters
+"""
+    
+class Solution:
+    def isPalindrome(self, s):
+        if s == None or len(s) == 0: return None
+        l = 0; r = len(s) - 1
+        while l < r:
+            if not s[l].isalnum(): l += 1
+            elif not s[r].isalnum(): r -= 1
+            else:
+                if s[l].lower() != s[r].lower(): return False
+                else:
+                    l += 1
+                    r -= 1
+        return True
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.isPalindrome("A man, a plan, a canal: Panama"))
+    print(s.isPalindrome("race a Car"))
+    print(s.isPalindrome("0P"))
+    
+"""
+check if a integer is palindrome (without converting to a string)
+Gotcha: use simple airthmatic by finding reverse of the number
+"""
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        rev_num = 0
+        chk_num = x
+        while chk_num > 0:
+            remainder = chk_num % 10
+            rev_num = rev_num * 10 + remainder
+            chk_num = chk_num // 10
+
+        if rev_num == x: return True
+        return False
+
+
+
+    
