@@ -81,21 +81,7 @@ if __name__ == "__main__":
     print(s.isPalindrome("race a Car"))
     print(s.isPalindrome("0P"))
     
-"""
-check if a integer is palindrome (without converting to a string)
-Gotcha: use simple airthmatic by finding reverse of the number
-"""
-class Solution:
-    def isPalindrome(self, x: int) -> bool:
-        rev_num = 0
-        chk_num = x
-        while chk_num > 0:
-            remainder = chk_num % 10
-            rev_num = rev_num * 10 + remainder
-            chk_num = chk_num // 10
 
-        if rev_num == x: return True
-        return False
 
 
 

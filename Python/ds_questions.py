@@ -117,4 +117,88 @@ if __name__ == "__main__":
     s = Solution()
     print(s.count_lines(file_path))
     
+"""
+Find ID of the person with biggest tip
+"""
+
+class Solution:
+    def biggestTip(user_ids, tips):
+        max_tip = 0
+        for user, tip in zip(user_ids, tips):
+            if tip > max_tip:
+                max_tip = tip
+                highestUser = user
+        return highestUser
     
+if __name__ == "__main__":
+    s = Solution()
+    print(s.biggestTip([103, 105, 105, 107, 106, 103, 102, 108, 107, 103, 102],
+                       [2, 5, 1, 0, 2, 1, 1, 0, 0, 2, 2]))
+
+"""
+Given a list of stock prices in ascending order by datetime, 
+write a function that outputs the max profit by buying and selling at a specific interval
+"""
+
+class Solution:
+    def get_max_profit(self, stock_prices, dts):
+        minPrice = stock_prices[0]; maxProfit = 0
+        buyTime = dts[0]
+        for i in range(len(stock_prices)):
+            if stock_prices[i] < minPrice:
+                minPrice = stock_prices[i]
+                buyTime = dts[i]
+            if stock_prices[i] - minPrice > maxProfit: 
+                maxProfit = stock_prices[i] - minPrice
+                sellTime = dts[i]
+        
+        try: 
+            answer = (maxProfit, buyTime, sellTime)
+        except:
+            answer = None
+            
+        return answer
+        
+if __name__ == "__main__":
+    s = Solution()
+    print(s.get_max_profit([10,5,20,32,25,12],
+                           ['2019-01-01', 
+                           '2019-01-02',
+                           '2019-01-03',
+                           '2019-01-04',
+                           '2019-01-05',
+                           '2019-01-06']))
+ 
+    print(s.get_max_profit([10,5],
+                           ['2019-01-01', 
+                           '2019-01-02']))   
+    print(s.get_max_profit([5,10,4],
+                           ['2019-01-01', 
+                           '2019-01-02',
+                           '2019-01-03']))  
+    
+"""
+We have a list of existing ids that we have already scraped. 
+Let's say we also have two lists, one of names and another of urls 
+that correspond to the names in another list with the id of the names in the url
+"""
+
+class Solution:
+    def newResumes(self, existing_ids, names, urls):
+        ids = set(existing_ids)
+        output = []
+        for name, url in zip(names, urls):
+            currID = int(url.split("/")[2])
+            if not currID in ids:
+                output.append((name, currID))
+                
+        return output
+        
+if __name__ == "__main__":
+    s = Solution()
+    print(s.newResumes([15234, 20485, 34536, 95342, 94857],
+    ['Calvin', 'Jason', 'Cindy', 'Kevin'],
+    ['domain.com/resume/15234', 
+     'domain.com/resume/23645', 
+     'domain.com/resume/64337', 
+     'domain.com/resume/34536']))
