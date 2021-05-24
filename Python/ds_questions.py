@@ -202,3 +202,37 @@ if __name__ == "__main__":
      'domain.com/resume/23645', 
      'domain.com/resume/64337', 
      'domain.com/resume/34536']))
+
+"""
+Write a function that takes in a list of dictionaries with a key and list of integers, 
+and returns a dictionary with the standard deviation of each list.
+
+Gotcha: not using numpy, clarify if asking sample standard dev, and use round to limit the decimals
+"""
+
+class Solution:
+    
+    def eval_std(self, nums):
+        sample_mean = sum(nums) / len(nums)
+        SS = 0
+        for num in nums:
+            SS += (num - sample_mean)**2
+            
+        return SS/len(nums)
+        
+    def compute_dev(self, input_list):
+        d = {}
+        for item in input_list:
+            sample_var = self.eval_std(item['values'])
+            d[item['key']] = round(sample_var**(0.5), 2)
+            
+        return d
+        
+if __name__ == "__main__":
+    s = Solution()
+    input_ = [{'key': 'list1',
+               'values': [4,5,2,3,4,5,2,3],},
+              {'key': 'list2',
+               'values': [1,1,34,12,40,3,9,7],}]
+    print(s.compute_dev(input_))
+    

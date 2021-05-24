@@ -58,7 +58,7 @@ if __name__ == "__main__":
     
 """
 Check if alphanumeric characters with lower case in a string makes palindrome
-Gotcha: use of binary search and ensure lower case characters
+Gotcha: use of binary search and ensure lower case characters, 2 pointers solution
 """
     
 class Solution:
