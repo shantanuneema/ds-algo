@@ -81,3 +81,53 @@ def canSum(targetSum, numbers):
     node_dict[targetSum] = False
     
     return node_dict[targetSum]
+
+# howsum with recursion:
+class Solution:
+
+    def howsum(self, target, nums):
+
+        if target == 0: return []
+        if target < 0: return None
+
+        answer = []
+        for num in nums:
+            balance = target - num
+            result = howsum(balance, nums)
+            if result != None:
+                return result + [num]
+        return None
+
+if __name__ == "__main__":
+    s = Solution()
+    print(s.howsum(7, [5,3,4,7]))
+    
+# howsum with memoization
+
+class Solution:
+
+    def __init__(self):
+        self.result_dict = {}
+
+    def howsum(self, target, nums):
+
+        if target == 0: return []
+        if target < 0: return None
+        if target in self.result_dict: return self.result_dict[target]
+
+        answer = []
+        for num in nums:
+            balance = target - num
+            result = howsum(balance, nums)
+            if result != None:
+                self.result_dict[target] = result + [num]
+                return self.result_dict[target]
+        self.result_dict[target] = None
+        return None
+
+if __name__ == "__main__":
+    s = Solution()
+    print(s.howsum(200, [7, 14]))
+    print(s.howsum(7, [2,3,4,7]))
+    print(s.howsum(0, [1,2]))
+    print(s.howsum(50, [1,2]))
