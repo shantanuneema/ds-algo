@@ -179,16 +179,14 @@ class Solution:
                 comb_result = result + [num]
                 if shortest_result == None or len(comb_result) < len(shortest_result):
                     shortest_result = comb_result
-                    self.result_dict[target] = shortest_result
                     
-        self.result_dict[target] = None
+        self.result_dict[target] = shortest_result
         return shortest_result
 
 if __name__ == "__main__":
-    s = Solution()
-    print(s.best_sum(7, [5, 3, 4, 7]))
-    print(s.best_sum(8, [2, 3, 5]))
-    print(s.best_sum(300, [7, 14]))
+    print(Solution().best_sum(7, [5, 3, 4, 7, 6, 1]))
+    print(Solution().best_sum(8, [2, 3, 5]))
+    print(Solution().best_sum(300, [7, 14]))
 
 
 """
