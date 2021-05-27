@@ -23,6 +23,7 @@ if __name__ == "__main__":
 reverse an integer, ensure values out of max and min allowed range returns 0
 gotcha: carefully take care of -ve sign in reversing as well as conditional statement before returning
 """
+
 class Solution:
     def reverse(self, x):
         if x == None: return
@@ -31,9 +32,8 @@ class Solution:
         y = abs(x)
         rev_num = 0
         while y > 0:
-            remainder = y % 10
+            y, remainder = divmod(y, 10)
             rev_num = rev_num * 10 + remainder
-            y = y // 10
             
         if ifneg and rev_num < 2**31:
             return -1*rev_num
@@ -46,3 +46,29 @@ if __name__ == "__main__":
     print(s.reverse(2**31-4))
     print(s.reverse(-123000))
     print(s.reverse(1234))
+    
+"""
+find if triplet of numbers from a given array, matches the given target
+"""
+class Solution:
+    
+    def ifTriplet(self, target, nums):
+        return self.helper(target, nums, 0, 0)
+
+    def helper(self, target, nums, i, count):
+        if target == 0 and count == 3: return True
+        if target < 0 or count >= 3 or i == len(nums): return False
+        # select a number @ i
+        select = self.helper(target, nums, i + 1, count + 1)
+        # don't select a number @ i
+        not_select = self.helper(target - nums[i], nums, i, count)
+        return select or not_select
+
+nums = [2, 7, 4, 0, 9, 5, 1, 3]
+target = 6
+
+if __name__ == "__main__":
+    s = Solution()
+    print(s.ifTriplet(target, nums))
+    print(s.ifTriplet(0, [1,2]))
+    print(s.ifTriplet(27, [2]))
