@@ -115,7 +115,7 @@ class Solution:
         if target == 0: return []
         if target < 0: return None
         if target in self.result_dict: return self.result_dict[target]
-
+        
         for num in nums:
             balance = target - num
             result = howsum(balance, nums)
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     print(s.howsum(7, [2,3,4,7]))
     print(s.howsum(0, [1,2]))
     print(s.howsum(50, [1,2]))
-    
+
 """
 Best sum problem
 """
