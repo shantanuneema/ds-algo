@@ -72,3 +72,27 @@ if __name__ == "__main__":
     print(s.ifTriplet(target, nums))
     print(s.ifTriplet(0, [1,2]))
     print(s.ifTriplet(27, [2]))
+    
+
+"""
+find number of pairs to get a target sum from given array and target
+
+Time and Space: O(n)
+"""
+
+class Solution:
+
+    def num_pairs(self, target, nums):
+        count = 0
+        num_dict = {}
+        for num in nums:
+            if num in num_dict.values():
+                count += 1
+            num_dict[num] = target - num
+        return count
+    
+if __name__ == "__main__":
+
+    print(Solution().num_pairs(10, [8, 7, 2, 5, 3, 1]))
+    print(Solution().num_pairs(0, [1, 2]))
+    print(Solution().num_pairs(7, [5, 3, 4, 7, 6, 1]))

@@ -212,3 +212,72 @@ class Solution:
         if select == -1: return not_select
         
         return min(not_select, select)
+    
+"""
+Minimum steps to 1 from number N to 1 by:
+    1. reduce by 1
+    2. divide by 2, and
+    3. divide by 3
+    
+Approach: Recursive solution and the same with memoization
+"""
+# recursively
+class Solution:
+
+    def min_steps(self, num):
+        return self.helper(num)
+
+    def helper(self, num):
+        if num == 1: return 0
+        steps = self.helper(num - 1)
+        if num % 2 == 0:
+            steps = min(steps, self.helper(num // 2))
+        if num % 3 == 0:
+            steps = min(steps, self.helper(num // 3))
+
+        return steps + 1
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.min_steps(10))
+    
+# with Memoization
+class Solution:
+    
+    def __init__(self):
+        self.num_dict = {}
+
+    def min_steps(self,num):
+        return self.helper(num)
+
+    def helper(self, num):
+        if num == 1: return 0
+        if num in self.num_dict: return self.num_dict[num]
+
+        steps = self.helper(num - 1)
+        if num % 2 == 0:
+            steps = min(steps, self.helper(num // 2))
+        if num % 3 == 0:
+            steps = min(steps, self.helper(num // 3))
+        
+        self.num_dict[num] = steps
+        return steps + 1
+
+%%time
+s = Solution()
+s.min_steps(400)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
