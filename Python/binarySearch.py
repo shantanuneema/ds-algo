@@ -31,7 +31,7 @@ Gotcha: use of l <= r, and duplicated values
 """
 
 class Solution:
-    # Use binary search
+    # Use linear search after identifying the element from binary (O(n))
     def searchRange(self, nums, target):
         l = 0; r = len(nums) - 1
         while l <= r:
@@ -55,6 +55,57 @@ if __name__ == "__main__":
     print(s.searchRange([1], 1))
     print(s.searchRange([1,2], 3))
     print(s.searchRange([1,1,1,3,3,3,3,3,3,4], 3))
+    
+# Using binary search on each side (O(log n))
+class Solution:
+    def searchRange(self, nums, target):
+        if nums == None or len(nums) == 0: return [-1, -1]
+        l = 0; r = len(nums) - 1
+        self.result = [-1, -1]
+        while l <= r:
+            m = l + (r - l) // 2
+            if nums[m] == target:
+                if m == 0 or nums[m] > nums[m - 1]:
+                    self.result[0] = m
+                    self.result[1] = self.goright(nums, target, m, r)
+                    return self.result
+                elif m == len(nums) - 1 or nums[m + 1] > nums[m]:
+                    self.result[1] = m
+                    self.result[0] = self.goleft(nums, target, l, m)
+                    return self.result
+                else:
+                    self.result[0] = self.goleft(nums, target, l, m)
+                    self.result[1] = self.goright(nums, target, m, r)
+                    return self.result
+            elif m == 0 or nums[m] < target:
+                l = m + 1
+            elif m == len(nums) - 1 or nums[m] > target:
+                r = m - 1
+        return self.result
+            
+    def goleft(self, nums, target, l, r):
+        while l <= r:
+            m  = l + (r - l) // 2
+            if nums[m] == target:
+                if m == 0 or nums[m - 1] < nums[m]:
+                    return m
+                else: r = m - 1
+            else: l = m + 1
+    
+    def goright(self, nums, target, l, r):
+        while l <= r:
+            m = l + (r - l) // 2
+            if nums[m] == target:
+                if m == len(nums) - 1 or nums[m] < nums[m + 1]:
+                    return m
+                else: l = m + 1
+            else: r = m - 1
+
+if __name__ == "__main__":
+    s = Solution()
+    print(s.searchRange([1,1,1,1,1,1], 5))
+    print(s.searchRange([5,7,7,8,8,8,8,8,8,10,11], 8))
+    print(s.searchRange([1], 1))
     
 """
 Check if alphanumeric characters with lower case in a string makes palindrome
@@ -81,8 +132,28 @@ if __name__ == "__main__":
     print(s.isPalindrome("race a Car"))
     print(s.isPalindrome("0P"))
     
+"""
+Find minimum in rotated sorted array:
+Gotcha: check the start and end of the array (or partial array) to see which side is sorted
+"""
 
-
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        r = len(nums) - 1; l = 0
+        while l <= r:
+            m = l + (r - l) // 2
+            if nums[l] < nums[r]: return nums[l]
+            if (m == 0 or nums[m] < nums[m - 1]) and (m == len(nums) - 1 or nums[m] < nums[m + 1]):
+                return nums[m]
+            if nums[m] < nums[r]:
+                r = m - 1
+            else:
+                l = m + 1
+                
+if __name__ == "__main__":
+    s = Solution()
+    print(s.findMin([4,5,6,7,0,1,2]))
+    print(s.findMin([3,4,5,1,2]))
 
 
     
