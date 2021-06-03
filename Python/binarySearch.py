@@ -155,5 +155,72 @@ if __name__ == "__main__":
     print(s.findMin([4,5,6,7,0,1,2]))
     print(s.findMin([3,4,5,1,2]))
 
+"""
+Find if a given target is present in a given matrix
+Gotcha: try to visualize matrix as an array and make use of binary search
+"""
 
+class Solution:
+
+    def search2D(self, matrix, target):
+
+        m = len(matrix)
+        n = len(matrix[0])
+
+        left = 0; right = m * n - 1
+
+        while left <= right:
+            mid = left + (right - left) // 2
+            row, col = divmod(mid, n)
+            if matrix[row][col] == target: 
+                return True
+            elif matrix[row][col] > target:
+                right = mid - 1 
+            else:
+                left = mid + 1
+        return False
     
+if __name__ == "__main__":
+    s = Solution()
+    print(s.search2D([[1,3,5,7], [10,11,16,20], [23,30,34,60]], 3))
+    
+"""
+Find position of target in a given array with unknown length
+Gotcha: move high pointer with 2x speed until we find a number greater than target
+"""
+
+"""
+This is ArrayReader's API interface.
+    class ArrayReader:
+        def get(self, index: int) -> int:
+You should not implement it, or speculate about its implementation
+"""
+
+class Solution:
+    def search(self, reader, target):
+        """
+        :type reader: ArrayReader
+        :type target: int
+        :rtype: int
+        """
+        low = 0; high = 1
+        if target < reader.get(low): return - 1
+        
+        while reader.get(high) < target:
+            low = high
+            high = 2 * low
+            
+        return self.binarySearch(reader, target, low, high)
+            
+    def binarySearch(self, reader, target, low, high):
+        
+        while low <= high:
+            mid = low + (high - low) // 2
+            if reader.get(mid) == target:
+                return mid
+            elif reader.get(mid) < target:
+                low = mid + 1
+            else:
+                high = mid - 1
+            
+        return -1
