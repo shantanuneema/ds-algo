@@ -225,21 +225,19 @@ Approach: Recursive solution and the same with memoization
 class Solution:
 
     def min_steps(self, num):
-        return self.helper(num)
-
-    def helper(self, num):
         if num == 1: return 0
-        steps = self.helper(num - 1)
+        
+        steps = 1 + self.min_steps(num - 1)
         if num % 2 == 0:
-            steps = min(steps, self.helper(num // 2))
+            steps = min(steps, 1 + self.min_steps(num // 2))
         if num % 3 == 0:
-            steps = min(steps, self.helper(num // 3))
-
-        return steps + 1
+            steps = min(steps, 1 + self.min_steps(num // 3))
+            
+        return steps
     
 if __name__ == "__main__":
     s = Solution()
-    print(s.min_steps(10))
+    print(s.min_steps(300))
     
 # with Memoization
 class Solution:
@@ -247,25 +245,23 @@ class Solution:
     def __init__(self):
         self.num_dict = {}
 
-    def min_steps(self,num):
-        return self.helper(num)
-
-    def helper(self, num):
+    def min_steps(self, num):
         if num == 1: return 0
         if num in self.num_dict: return self.num_dict[num]
-
-        steps = self.helper(num - 1)
-        if num % 2 == 0:
-            steps = min(steps, self.helper(num // 2))
-        if num % 3 == 0:
-            steps = min(steps, self.helper(num // 3))
         
+        steps = 1 + self.min_steps(num - 1)
+        if num % 2 == 0:
+            steps = min(steps, 1 + self.min_steps(num // 2))
+        if num % 3 == 0:
+            steps = min(steps, 1 + self.min_steps(num // 3))
+            
         self.num_dict[num] = steps
-        return steps + 1
+        return steps
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.min_steps(300))
 
-%%time
-s = Solution()
-s.min_steps(400)
 
 
 
