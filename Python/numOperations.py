@@ -143,3 +143,26 @@ if __name__ == "__main__":
     print(s.subarraySum([1,1,1], 2))
     print(s.subarraySum([1], 0))
     print(s.subarraySum([3,4,7,2,-3,1,4,2,0,1], 7))
+    
+"""
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except the number itself
+Gotcha: use of reverse for loop 
+"""
+
+class Solution:
+    def productExceptSelf(self, nums):
+        if nums == None or len(nums) == 0: return None
+        lproduct = 1; rproduct = 1; result = [1]
+        for i in range(len(nums)):
+            if i != 0: 
+                lproduct = lproduct * nums[i - 1]
+                result.append(lproduct)
+        for i in reversed(range(len(nums))):
+            if i != len(nums) - 1:
+                rproduct = rproduct * nums[i + 1]
+            result[i] = result[i] * rproduct
+        return result
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.productExceptSelf([1,2,3,4]))
