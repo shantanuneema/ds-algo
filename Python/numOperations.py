@@ -96,3 +96,26 @@ if __name__ == "__main__":
     print(Solution().num_pairs(10, [8, 7, 2, 5, 3, 1]))
     print(Solution().num_pairs(0, [1, 2]))
     print(Solution().num_pairs(7, [5, 3, 4, 7, 6, 1]))
+    
+"""
+Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1
+Gotcha: start the hash maps with initially {0: -1}, to cover when running sum is 0 and size of array is 2 (e.g [0, 1])
+"""
+
+class Solution:
+    def findMaxLength(self, nums):
+        if nums == None or len(nums) == 0: return 0
+        num_dict = {0: -1}; rSum = 0; maxLen = 0
+        for i in range(len(nums)):
+            if nums[i] == 1: rSum += 1
+            else: rSum -= 1
+            if rSum in num_dict:
+                maxLen = max(maxLen, i - num_dict[rSum])
+            else:
+                num_dict[rSum] = i
+        return maxLen
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.findMaxLength([0,1]))
+    print(s.findMaxLength([1,0,1,0,1,1,1,1,0,0,1,0,1]))
