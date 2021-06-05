@@ -27,7 +27,7 @@ Gotcha: single pass solution (less complicated) using set, set.remove() vs set.p
 """
 # 2 pass solution (using a dictionary) 
 class Solution:
-    def longestPalindrome(self, s: str) -> int:
+    def longestPalindrome(self, s):
         if s == None or len(s) == 0: return 0
         sdict = defaultdict(int); maxLen = 0
         for char in s:
@@ -43,7 +43,7 @@ class Solution:
 
 # Single pass Solution (using a set)
 class Solution:
-    def longestPalindrome(self, s: str) -> int:
+    def longestPalindrome(self, s):
         if s == None or len(s) == 0: return 0
         cSet = set(); maxLen = 0
         for char in s:

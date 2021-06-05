@@ -119,3 +119,27 @@ if __name__ == "__main__":
     s = Solution()
     print(s.findMaxLength([0,1]))
     print(s.findMaxLength([1,0,1,0,1,1,1,1,0,0,1,0,1]))
+    
+"""
+Given an array of integers nums and an integer k, return the total number of continuous subarrays whose sum equals to k
+Gotcha: start with a dictionary where sum 0 has happend 1 (i.e {0: 1})
+"""
+
+from collections import defaultdict
+class Solution:
+    def subarraySum(self, nums, k):
+        rSum = 0; sumDict = defaultdict(int); count = 0
+        sumDict[0] = 1
+        for num in nums:
+            rSum += num
+            compliment = rSum - k
+            if compliment in sumDict:
+                count += sumDict[compliment]
+            sumDict[rSum] += 1
+        return count
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.subarraySum([1,1,1], 2))
+    print(s.subarraySum([1], 0))
+    print(s.subarraySum([3,4,7,2,-3,1,4,2,0,1], 7))
