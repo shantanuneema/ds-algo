@@ -166,3 +166,84 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.productExceptSelf([1,2,3,4]))
+    
+"""
+Diagonal traversal in a matrix:
+Gotcha: very careful observation in boundary conditions
+"""
+
+class Solution:
+    def findDiagonalOrder(self, matrix):
+        direction = "up"
+        result = []
+        m = len(matrix); n = len(matrix[0])
+        i = 0; j = 0
+
+        for __ in range(m * n):
+            result.append(matrix[i][j])
+            if direction == "up":
+                i -= 1; j +=1
+                if i < 0 or j > n - 1: 
+                    direction = "down"
+                    if j <= n - 1:
+                        i += 1;
+                    else:
+                        i += 2; j -= 1
+            elif direction == "down":
+                i += 1; j -= 1
+                if j < 0 or i > m - 1:
+                    direction = "up"
+                    if i <= m - 1:
+                        j += 1; 
+                    else:
+                        i -= 1; j += 2
+        return result                
+        
+if __name__ == "__main__":
+    s = Solution()
+    print(s.findDiagonalOrder([[1,2,3,4], [5,6,7,8], [9,10,11,12]]))
+    print(s.findDiagonalOrder([[1,2,3,4]]))
+    print(s.findDiagonalOrder([[1,2],[3,4]]))
+    
+
+"""
+Traverse in spiral for a given m x n matrix
+Gotcha: ensure last direction don't re-run using condtional statements
+"""
+
+class Solution:
+    def spiralOrder(self, matrix):
+
+        top = 0; bottom = len(matrix) - 1
+        left = 0; right = len(matrix[0]) - 1
+        result = []
+
+        while top <= bottom and left <= right:
+            # move right
+            if left <= right and bottom >= top:
+                for i in range(left, right + 1):
+                    result.append(matrix[top][i])
+                top += 1
+            # move down
+            if left <= right and bottom >= top:
+                for i in range(top, bottom + 1):
+                    result.append(matrix[i][right])
+                right -= 1
+            # move left
+            if left <= right and bottom >= top:
+                for i in range(right, left - 1, -1):
+                    result.append(matrix[bottom][i])
+                bottom -= 1
+            # move up
+            if left <= right and bottom >= top:
+                for i in range(bottom, top -1 , -1):
+                    result.append(matrix[i][left])
+                left += 1
+                
+        return result
+        
+if __name__ == "__main__":
+    s = Solution()
+    print(s.spiralOrder([[1,2,3,4], [5,6,7,8], [9,10,11,12]]))
+    print(s.spiralOrder([[1,2,3,4]]))
+    print(s.spiralOrder([[1,2],[3,4]]))
