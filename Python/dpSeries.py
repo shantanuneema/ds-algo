@@ -95,7 +95,7 @@ class Solution:
         answer = []
         for num in nums:
             balance = target - num
-            result = howsum(balance, nums)
+            result = self.howsum(balance, nums)
             if result != None:
                 return result + [num]
         return None
@@ -118,7 +118,7 @@ class Solution:
         
         for num in nums:
             balance = target - num
-            result = howsum(balance, nums)
+            result = self.howsum(balance, nums)
             if result != None:
                 self.result_dict[target] = result + [num]
                 return self.result_dict[target]
@@ -261,8 +261,28 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.min_steps(300))
+    
+"""
+Find if triplet exist
+"""
+class Solution:
+    
+    def ifTriplet(self, target, nums):
+        return self.helper(target, nums, 0, 0)
+    def helper(self, target, nums, i, count):
+        if target == 0 and count == 3: return True
+        if target < 0 or count >= 3 or i == len(nums): return False
+        # select a number @ i
+        select = self.helper(target, nums, i + 1, count + 1)
+        # don't select a number @ i
+        not_select = self.helper(target - nums[i], nums, i, count)
+        return select or not_select
 
-
+if __name__ == "__main__":
+    s = Solution()
+    print(s.ifTriplet(6, [2, 7, 4, 0, 9, 5, 1, 3]))
+    print(s.ifTriplet(0, [1, 2]))
+    print(s.ifTriplet(27, [2]))
 
 
 

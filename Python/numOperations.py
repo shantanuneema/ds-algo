@@ -247,3 +247,154 @@ if __name__ == "__main__":
     print(s.spiralOrder([[1,2,3,4], [5,6,7,8], [9,10,11,12]]))
     print(s.spiralOrder([[1,2,3,4]]))
     print(s.spiralOrder([[1,2],[3,4]]))
+    
+"""
+Game of life: LC use 4 rules to update the matrix
+Gotcha: use indicators for in-place operation in 2 pass
+"""
+
+class Solution:
+    def gameOfLife(self, board):
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        self.dirs = [(0, 1), (0, -1), (1, 0), (-1, 0), (-1, 1), (-1, -1), (1, -1), (1, 1)]
+        self.m = len(board); self.n = len(board[0])
+        
+        for i in range(self.m):
+            for j in range(self.n):
+                count = self.findNeighbors(board, i, j)
+                if board[i][j] == 1 and (count < 2 or count > 3):
+                    board[i][j] = 2
+                elif count == 3 and board[i][j] == 0:
+                    board[i][j] = 3
+                    
+        for i in range(self.m):
+            for j in range(self.n):
+                if board[i][j] == 3: board[i][j] = 1
+                if board[i][j] == 2: board[i][j] = 0
+        
+        return board
+                
+    def findNeighbors(self, board, i, j):
+        count = 0
+        for d in self.dirs:
+            row = i + d[0]
+            col = j + d[1]
+            if row >= 0 and col >= 0 and row < self.m and col < self.n:
+                if board[row][col] == 1 or board[row][col] == 2: 
+                    count += 1
+                    
+        return count
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.gameOfLife([[0,1,0],[0,0,1],[1,1,1],[0,0,0]]))
+    
+"""
+Find disappeared number in an array from 1 to n
+Gotcha: use of indices and smartly using them based on value of the number at any index to get O(n) solution
+"""
+
+class Solution:
+    def findDisappearedNumbers(self, nums):
+        for i in range(len(nums)):
+            idx = abs(nums[i]) - 1
+            if nums[idx] > 0: 
+                nums[idx] = -nums[idx]
+        result = []
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                result.append(i + 1)
+        return result
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.findDisappearedNumbers([4,3,2,7,8,2,3,1]))
+    print(s.findDisappearedNumbers([1,1]))
+    
+"""
+3 sum problem using 2-pointers
+
+"""
+
+class Solution:
+    def threeSum(self, nums):
+        result = []
+        if nums == None or len(nums) < 3: return result
+        nums = sorted(nums)
+        for i in range(len(nums) - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            else:
+                low = i + 1; high = len(nums) - 1
+                remainder = -nums[i]
+                while low < high:
+                    if nums[low] + nums[high] == remainder:
+                        result.append([nums[i], nums[low], nums[high]])
+                        low += 1
+                        high -= 1
+                        while low < high and nums[low] == nums[low - 1]: 
+                            low += 1
+                        while low < high and nums[high] == nums[high + 1]:
+                            high -= 1
+                    elif nums[low] + nums[high] > remainder:
+                        high -= 1
+                    else: low += 1
+        return result
+               
+if __name__ == "__main__":
+    s = Solution()
+    print(s.threeSum([-1,0,1,2,-1,-4]))
+    
+    
+"""
+sort 3 colors indicated by 0,1 and 2 without using sort function (O(n) instead of O(n log n))
+Gotcha: mid <= high for while condition, and only moving high pointer when swapping with middle
+"""
+
+from collections import defaultdict
+class Solution:
+    def sortColors(self, nums):
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        if nums == None or len(nums) == 0: return None
+        l = 0; m = 0; h = len(nums) - 1
+        
+        while m <= h:
+            if nums[m] == 0:
+                nums[m], nums[l] = nums[l], nums[m]
+                l += 1; m += 1
+            elif nums[m] == 1:
+                m += 1
+            elif nums[m] == 2:
+                nums[m], nums[h] = nums[h], nums[m]
+                h -= 1
+                
+        return nums
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.sortColors([2,0,1,0,1,1,0,2]))
+    print(s.sortColors([1,2,0]))
+    
+"""
+Find maximum area in an given array (no slant allowed)
+Gotcha: conditional statements in 2-pointer solution, O(n^2) too as acceptable solution
+"""
+
+class Solution:
+    def maxArea(self, height):
+        if height == None or len(height) == 0: return 0
+        l = 0; h = len(height) - 1; maxHeight = 0
+        while l < h:
+            maxHeight = max(maxHeight, min(height[l], height[h]) * (h - l))
+            if height[l] <= height[h]:
+                l += 1
+            else: h -= 1  
+        return maxHeight
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.maxArea([1,8,6,2,5,4,8,3,7]))
