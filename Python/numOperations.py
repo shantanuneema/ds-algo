@@ -398,3 +398,33 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.maxArea([1,8,6,2,5,4,8,3,7]))
+    
+"""
+Remove duplicates more than k in place, use of two pointers and return length to limit the in-place array
+
+"""
+class Solution:
+    def removeDuplicates(self, nums, k = 2):
+        count = 1; length = 1; p = 1
+        for i in range(1, len(nums)):
+            if nums[i] == nums[i - 1]:
+                count += 1
+            else:
+                count = 1
+            if count <= k:
+                nums[p] = nums[i]
+                p += 1
+                length += 1
+        return length
+    
+if __name__ == "__main__":
+    s = Solution(); nums = [1,1,1,2,2,3]
+    print(nums[0: s.removeDuplicates(nums)])
+    s = Solution(); nums = [0,0,0,1,1,1,1,2,2,3]
+    print(nums[0: s.removeDuplicates(nums, k = 3)])
+    
+    
+    
+    
+    
+
