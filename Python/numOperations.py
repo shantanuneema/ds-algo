@@ -423,7 +423,37 @@ if __name__ == "__main__":
     s = Solution(); nums = [0,0,0,1,1,1,1,2,2,3]
     print(nums[0: s.removeDuplicates(nums, k = 3)])
     
+"""
+merge sorted arrays with 0s at the end
+Gotcha: extra while loop for the second array
+"""
+
+class Solution:
     
+    def merge(self, nums1, m, nums2, n):
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        if n == 0: return nums1
+        p1 = m - 1; p2 = n - 1
+        idx = m + n - 1
+        
+        while p1 >= 0 and p2 >= 0:
+            if nums1[p1] >= nums2[p2]:
+                nums1[idx] = nums1[p1]
+                p1 -= 1
+            else:
+                nums1[idx] = nums2[p2]
+                p2 -= 1
+            idx -= 1
+        while p2 >= 0:
+            nums1[idx] = nums2[p2]
+            idx -= 1; p2 -= 1
+        return nums1
+            
+if __name__ == "__main__":
+    s = Solution()
+    print(s.merge([1,2,8,0,0,0,0,0,0], 3, [-3,-2,2,2,5,6], 6))
     
     
     
