@@ -136,7 +136,7 @@ print(Solution().post_order(tree_node, ascending = False))
 Validate a Binary-Tree
 """
 
-# Recursive Solution:
+# Recursive Solution (more memory):
 class Solution:
     
     def isValidBST(self, root: TreeNode) -> bool:
@@ -179,3 +179,41 @@ class Solution:
 if __name__ == "__main__":
     print(Solution().isValidBST(tree_node))
     print(Solution().isValidBST(new_node))
+    
+# Recursive Solution
+class Solution:
+    
+    def isValidBST(self, root: TreeNode) -> bool:
+        if root == None: return True
+        self.prev = TreeNode(value = -float('inf'))
+        return self.inOrder(root)
+    
+    def inOrder(self, root):
+        
+        if root == None: return True
+        if self.inOrder(root.left) == False: 
+            return False
+        if self.prev.value >= root.value: 
+            return False
+        self.prev = root
+        return self.inOrder(root.right)
+    
+if __name__ == "__main__":
+    print(Solution().isValidBST(tree_node))
+    print(Solution().isValidBST(new_node))    
+    
+# Better recursive solution:
+class Solution:
+    
+    def isValidBST(self, root: TreeNode) -> bool:
+        return self.isValid(root, None, None)
+    
+    def isValid(self, root, minval, maxval):
+        
+        if root == None: return True
+        if minval != None and root.value <= minval: return False
+        if maxval != None and root.value >= maxval: return False
+        
+        return self.isValid(root.left, minval, root.value) and \
+               self.isValid(root.right, root.val, maxval)
+ 
