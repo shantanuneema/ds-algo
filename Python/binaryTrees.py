@@ -216,4 +216,49 @@ class Solution:
         
         return self.isValid(root.left, minval, root.value) and \
                self.isValid(root.right, root.val, maxval)
- 
+    
+"""
+sum of root to leaf numbers
+"""
+
+# Iterativ Solution
+class Solution:
+    
+    def sumNumbers(self, root: TreeNode) -> int:
+        
+        stack = []; nodeSum = 0; num_list = []
+        if root == None: return nodeSum
+            
+        while root != None or len(stack) != 0:
+            while root != None:
+                nodeSum = nodeSum * 10 + root.value
+                stack.append((root, nodeSum))
+                root = root.left
+            root, nodeSum = stack.pop()
+            if root.left == None and root.right == None:
+                num_list.append(nodeSum)
+            root = root.right
+
+        return sum(num_list)
+    
+if __name__ == "__main__":
+    s = Solution()
+    print(s.sumNumbers(tree_node))
+    
+# iterative solution:
+class Solution:
+    
+    def sumNumbers(self, root: TreeNode) -> int:
+        self.result = 0
+        self.dfs(root, 0)
+        return self.result
+    
+    def dfs(self, root, nodeSum):
+        
+        if root == None: return
+        nodeSum = nodeSum * 10 + root.value
+        if root:
+            self.dfs(root.left, nodeSum)
+            if root.left == None and root.right == None:
+                self.result += nodeSum
+            self.dfs(root.right, nodeSum)
