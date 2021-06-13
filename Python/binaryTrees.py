@@ -220,6 +220,10 @@ class Solution:
 """
 sum of root to leaf numbers
 """
+if __name__ == "__main__":
+    s = BinaryTree()
+    nums = [4,9,0,5,1]
+    tree_node = s.insertLevelOrder(nums, None, 0, len(nums))
 
 # Iterativ Solution
 class Solution:
@@ -262,3 +266,7 @@ class Solution:
             if root.left == None and root.right == None:
                 self.result += nodeSum
             self.dfs(root.right, nodeSum)
+            
+if __name__ == "__main__":
+    s = Solution()
+    print(s.sumNumbers(tree_node))
