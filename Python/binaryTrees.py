@@ -1,3 +1,5 @@
+from typing import List
+
 """
 Construction of binary trees in Python
 """
@@ -270,3 +272,60 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.sumNumbers(tree_node))
+    
+"""
+Construct a binary tree using inorder and preorder traversals
+"""
+# O(n^2) Solution
+inorder = [10, 20, 21, 22, 23, 25, 27, 28, 29, 30, 35, 40, 50]
+preorder = [25, 20, 10, 22, 21, 23, 30, 28, 27, 29, 40, 35, 50]
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        if len(preorder) > 0:
+            root = TreeNode(value = preorder[0])
+            
+            split_idx = -1
+            for i in range(len(inorder)):
+                if root.value == inorder[i]: split_idx = i
+                    
+            left_inorder = inorder[0: split_idx]
+            right_inorder = inorder[split_idx + 1: len(inorder)]
+            
+            left_preorder = preorder[1: split_idx + 1]
+            right_preorder = preorder[split_idx + 1: len(preorder)]
+            
+            root.left = self.buildTree(left_preorder, left_inorder)
+            root.right = self.buildTree(right_preorder, right_inorder)
+            
+            return root
+        
+if __name__ == "__main__":
+    s = Solution()
+    new_tree = s.buildTree(preorder, inorder)
+    print(new_tree)
+    
+# O(n) solution
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        self.idx = 0
+        self.idx_dict = {}
+        for i in range(len(inorder)):
+            self.idx_dict[inorder[i]] = i
+        return self.helper(preorder, inorder, 0, len(preorder) - 1)
+    
+    def helper(self, preorder, inorder, start, end):
+        if start > end:
+            return None
+        
+        rootval = preorder[self.idx]
+        root = TreeNode(value = rootval)
+        rIdx = self.idx_dict[rootval]
+        self.idx += 1
+        root.left = self.helper(preorder, inorder, start, rIdx - 1)
+        root.right = self.helper(preorder, inorder, rIdx + 1, end)
+        return root
+    
+if __name__ == "__main__":
+    s = Solution()
+    new_tree = s.buildTree(preorder, inorder)
