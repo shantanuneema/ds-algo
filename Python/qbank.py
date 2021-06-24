@@ -70,3 +70,24 @@ def maxCandies(arr, k):
     return -1 * total_candies
 
 print(maxCandies([2, 1, 7, 4, 2], 3))
+
+"""
+One simple way to encrypt a string is to "rotate" every alphanumeric character by a certain amount. Rotating a character means replacing it with another character that is a certain number of steps away in normal alphabetic or numerical order.
+For example, if the string "Zebra-493?" is rotated 3 places, the resulting string is "Cheud-726?". Every alphabetic character is replaced with the character 3 letters higher (wrapping around from Z to A), and every numeric character replaced with the character 3 digits higher (wrapping around from 9 to 0). Note that the non-alphanumeric characters remain unchanged.
+Given a string and a rotation factor, return an encrypted string.
+"""
+
+def rotationalCipher(input, rotation_factor):
+  # Write your code here
+    outstring = ''
+    for char in input:
+        if char.islower():
+            outstring += chr(ord('a') + divmod(ord(char) + rotation_factor - ord('a'), 26)[1])
+        elif char.isupper():
+            outstring += chr(ord('A') + divmod(ord(char) + rotation_factor - ord('A'), 26)[1])
+        elif char.isdigit():
+            outstring += chr(ord('0') + divmod(ord(char) + rotation_factor - ord('0'), 10)[1])
+        else: outstring += char
+    return outstring
+
+print(rotationalCipher('Zebra-493', 3))
