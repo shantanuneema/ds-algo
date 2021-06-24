@@ -91,3 +91,24 @@ def rotationalCipher(input, rotation_factor):
     return outstring
 
 print(rotationalCipher('Zebra-493', 3))
+
+"""
+You are given two strings s and t. You can select any substring of string s and rearrange the characters of the selected substring. Determine the minimum length of the substring of s such that string t is a substring of the selected substring.
+"""
+
+def min_length_substring(s, t):
+    # Write your code here
+    targetSet = list(t); ilist = []
+    for i in range(len(s)):
+        if s[i] in targetSet:
+            targetSet.remove(s[i])
+            ilist.append(i)
+    if targetSet: return -1
+    return ilist[-1] - ilist[0] + 1
+
+s = "bfbeadbcbcbfeaaeefcddcccbbbfaaafdbebedddf"
+t = "cbccfafebccdccebdd"
+print(min_length_substring(s, t))
+s1 = "dcbefebce"
+t1 = "fd"
+print(min_length_substring(s1, t1))
